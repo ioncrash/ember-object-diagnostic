@@ -1,5 +1,55 @@
 /// Ember Object Diagnostic ///
 
+const Order = Ember.Object.extend({
+  price: undefined,
+  qty: undefined,
+  orderPrice: Ember.computed('price', 'qty', function(){
+    return this.get('price') * this.get('qty');
+  })
+});
+
+const Cart = Ember.Object.extend({
+  orders: [],
+  addToCart: function(order) {
+    this.get('orders').addObject(order);
+    return this.orders;
+  },
+  totalPrice: Ember.computed('orders', function(){
+    let total = 0;
+    this.get('orders').forEach((e) => {
+      total += e.get('price');
+    });
+    return total;
+  })
+});
+
+let myCart = Cart.create({
+});
+
+let orderOne = Order.create({
+  name: 'hat',
+  price: 5,
+  qty: 2
+});
+
+let orderTwo = Order.create({
+  name: 'desk lamp',
+  price: 20,
+  qty: 1
+});
+
+let orderThree = Order.create({
+  name: 'hand towel',
+  price: 8,
+  qty: 3
+});
+
+myCart.addToCart(orderOne);
+myCart.addToCart(orderTwo);
+myCart.addToCart(orderThree);
+
+console.log('total price: ' + myCart.get('totalPrice'));
+
 // Use Ember Objects and Classes to represent a shopping cart!
 // Your abstractions will be `Cart` and `Order`.
 //
