@@ -17,7 +17,8 @@ const Cart = Ember.Object.extend({
   totalPrice: Ember.computed('orders', function(){
     let total = 0;
     this.get('orders').forEach((e) => {
-      total += e.get('price');
+      console.log('price is ' + total);
+      total += e.get('orderPrice');
     });
     return total;
   })
